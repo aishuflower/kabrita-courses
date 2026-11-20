@@ -1,0 +1,45 @@
+<div class="course-card">
+
+  <!-- Course Image -->
+  <div class="course-image">
+    <img [src]="image" [alt]="title">
+  </div>
+
+  <div class="card-content">
+
+    <!-- Duration and Rating -->
+    <div class="course-info">
+      <span class="duration">◷ {{ duration }} Hours</span>
+
+      <span class="rating">
+        ⭐ {{ rating }}
+      </span>
+    </div>
+
+    <!-- Divider -->
+    <hr class="card-divider">
+
+    <!-- Course Title -->
+    <h3>{{ title }}</h3>
+
+    <!-- Course Description -->
+    <p>{{ description }}</p>
+
+    <!-- Buttons -->
+    <div class="card-actions">
+
+      <button class="start-btn" (click)="startCourse()">
+        Start Course
+      </button>
+
+      <span
+        class="heart"
+        (click)="toggleFavorite()">
+        {{ favorite ? '♥' : '♡' }}
+      </span>
+
+    </div>
+
+  </div>
+
+</div>

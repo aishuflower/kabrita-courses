@@ -1,0 +1,120 @@
+<div class="course-section">
+
+  <!-- Toolbar above the cards -->
+  <div class="course-toolbar">
+
+    <!-- Left side -->
+    <div class="course-heading">
+      <h3>Show {{ filteredCourses.length }} Course</h3>
+      <p>Search instead for <span>"kabrita"</span></p>
+    </div>
+
+    <!-- Right side -->
+    <div class="course-toolbar-right">
+
+      <label class="search-label" for="courseSearch">
+        Search By Keywords
+      </label>
+
+      <input
+        id="courseSearch"
+        class="course-search"
+        type="text"
+        placeholder="Job title, keywords, or company"
+        [(ngModel)]="searchText"
+        (input)="searchCourses()"
+      />
+
+      <select class="sort-dropdown">
+        <option value="">Sort By (Default)</option>
+        <option value="az">Name A-Z</option>
+        <option value="za">Name Z-A</option>
+      </select>
+
+      <select
+        class="level-dropdown"
+        [(ngModel)]="selectedCategory"
+        (change)="onCategoryChange()"
+      >
+        <option value="All">All</option>
+        <option value="Beginner">Beginner</option>
+        <option value="Intermediate">Intermediate</option>
+        <option value="Advanced">Advanced</option>
+      </select>
+
+    </div>
+  </div>
+
+  <!-- Loading -->
+  @if (loading) {
+    <div class="course-status">
+      Loading courses...
+    </div>
+  }
+
+  <!-- Error -->
+  @if (errorMessage) {
+    <div class="course-status">
+      {{ errorMessage }}
+      <button (click)="loadCourses()">Retry</button>
+    </div>
+  }
+
+  <!-- Empty result -->
+  @if (!loading && !errorMessage && filteredCourses.length === 0) {
+    <div class="course-status">
+      No courses found.
+    </div>
+  }
+
+  <!-- Course cards -->
+  @if (!loading && !errorMessage && filteredCourses.length > 0) {
+
+    <div class="course-grid">
+
+      @for (course of filteredCourses; track $index) {
+        <app-course-card
+          [title]="course.title"
+          [description]="course.description"
+          [image]="course.image_url"
+          [duration]="course.duration_hours"
+          [rating]="5">
+        </app-course-card>
+      }
+
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination">
+
+      <!-- Previous -->
+      <button
+        class="page-arrow"
+        (click)="currentPage = currentPage > 1 ? currentPage - 1 : 1"
+        [disabled]="currentPage === 1">
+        ‹
+      </button>
+
+      <!-- Page Numbers -->
+      @for (page of pages; track page) {
+        <button
+          class="page-number"
+          [class.active]="currentPage === page"
+          (click)="goToPage(page)">
+          {{ page }}
+        </button>
+      }
+
+      <!-- Next -->
+      <button
+        class="page-arrow"
+        (click)="currentPage = currentPage + 1"
+        [disabled]="currentPage === totalPages">
+        ›
+      </button>
+
+    </div>
+
+  }
+
+</div>
